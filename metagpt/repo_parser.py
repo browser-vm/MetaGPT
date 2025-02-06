@@ -25,6 +25,7 @@ from metagpt.const import AGGREGATION, COMPOSITION, GENERALIZATION
 from metagpt.logs import logger
 from metagpt.utils.common import any_to_str, aread, remove_white_spaces
 from metagpt.utils.exceptions import handle_exception
+from security import safe_command
 
 
 class RepoFileInfo(BaseModel):
@@ -728,7 +729,7 @@ class RepoParser(BaseModel):
         command = f"pyreverse {str(path)} -o dot"
         output_dir = path / "__dot__"
         output_dir.mkdir(parents=True, exist_ok=True)
-        result = subprocess.run(command, shell=True, check=True, cwd=str(output_dir))
+        result = safe_command.run(subprocess.run, command, shell=True, check=True, cwd=str(output_dir))
         if result.returncode != 0:
             raise ValueError(f"{result}")
         class_view_pathname = output_dir / "classes.dot"
