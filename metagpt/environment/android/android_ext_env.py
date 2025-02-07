@@ -31,6 +31,7 @@ from metagpt.environment.android.text_icon_localization import (
 from metagpt.environment.base_env import ExtEnv, mark_as_readable, mark_as_writeable
 from metagpt.logs import logger
 from metagpt.utils.common import download_model
+from security import safe_command
 
 
 def load_cv_model(device: str = "cpu") -> any:
@@ -136,7 +137,7 @@ class AndroidExtEnv(ExtEnv):
 
     def execute_adb_with_cmd(self, adb_cmd: str) -> str:
         adb_cmd = adb_cmd.replace("\\", "/")
-        res = subprocess.run(adb_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        res = safe_command.run(subprocess.run, adb_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         exec_res = ADB_EXEC_FAIL
         if not res.returncode:
             exec_res = res.stdout.strip()

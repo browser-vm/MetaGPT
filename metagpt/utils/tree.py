@@ -32,6 +32,7 @@ from pathlib import Path
 from typing import Callable, Dict, List
 
 from gitignore_parser import parse_gitignore
+from security import safe_command
 
 
 def tree(root: str | Path, gitignore: str | Path = None, run_command: bool = False) -> str:
@@ -132,7 +133,7 @@ def _add_line(rows: List[str]) -> List[str]:
 def _execute_tree(root: Path, gitignore: str | Path) -> str:
     args = ["--gitfile", str(gitignore)] if gitignore else []
     try:
-        result = subprocess.run(["tree"] + args + [str(root)], capture_output=True, text=True, check=True)
+        result = safe_command.run(subprocess.run, ["tree"] + args + [str(root)], capture_output=True, text=True, check=True)
         if result.returncode != 0:
             raise ValueError(f"tree exits with code {result.returncode}")
         return result.stdout
