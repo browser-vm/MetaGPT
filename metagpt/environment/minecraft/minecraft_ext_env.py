@@ -98,7 +98,7 @@ class MinecraftExtEnv(ExtEnv):
     def close(self) -> bool:
         self.unpause()
         if self.connected:
-            res = requests.post(f"{self.server}/stop")
+            res = requests.post(f"{self.server}/stop", timeout=60)
             if res.status_code == 200:
                 self.connected = False
         self.mineflayer.stop()
@@ -179,7 +179,7 @@ class MinecraftExtEnv(ExtEnv):
     @mark_as_writeable
     def pause(self) -> bool:
         if self.mineflayer.is_running and not self.server_paused:
-            res = requests.post(f"{self.server}/pause")
+            res = requests.post(f"{self.server}/pause", timeout=60)
             if res.status_code == 200:
                 self.server_paused = True
         return self.server_paused
@@ -187,7 +187,7 @@ class MinecraftExtEnv(ExtEnv):
     @mark_as_writeable
     def unpause(self) -> bool:
         if self.mineflayer.is_running and self.server_paused:
-            res = requests.post(f"{self.server}/pause")
+            res = requests.post(f"{self.server}/pause", timeout=60)
             if res.status_code == 200:
                 self.server_paused = False
             else:
