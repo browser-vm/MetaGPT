@@ -20,6 +20,7 @@ from metagpt.ext.sela.insights.instruction_generator import InstructionGenerator
 from metagpt.ext.sela.utils import get_exp_pool_path, load_execute_notebook, mcts_logger
 from metagpt.tools.tool_recommend import ToolRecommender
 from metagpt.utils.common import read_json_file
+import fickling
 
 
 def initialize_di_root_node(state: dict, reflection: bool = True):
@@ -151,7 +152,7 @@ class Node:
 
     def load_node(self):
         with open(os.path.join(self.state["node_dir"], f"Node-{self.id}.pkl"), "rb") as f:
-            return pickle.load(f)
+            return fickling.load(f)
 
     def get_depth(self):
         return self.depth
@@ -483,7 +484,7 @@ class BaseTreeSearch:
         all_pkl_files = [f for f in all_pkl_files if f.endswith(".pkl")]
         if os.path.exists(os.path.join(self.root_node.state["node_dir"], "Node-0.pkl")):
             with open(os.path.join(self.root_node.state["node_dir"], "Node-0.pkl"), "rb") as f:
-                self.root_node = pickle.load(f)
+                self.root_node = fickling.load(f)
             self.children[self.root_node] = self.root_node.children
             load_children_node(self.root_node)
 
