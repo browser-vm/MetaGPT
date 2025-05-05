@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 # @Desc   : The werewolf game external environment to integrate with
 
-import random
 from collections import Counter
 from typing import Any, Callable, Optional
 
@@ -13,6 +12,7 @@ from metagpt.environment.base_env_space import BaseEnvObsParams
 from metagpt.environment.werewolf.const import STEP_INSTRUCTIONS, RoleState, RoleType
 from metagpt.environment.werewolf.env_space import EnvAction, EnvActionType
 from metagpt.logs import logger
+import secrets
 
 
 class WerewolfExtEnv(ExtEnv):
@@ -173,9 +173,9 @@ class WerewolfExtEnv(ExtEnv):
             else:
                 role_objs.append(role_obj)
         if shuffle:
-            random.shuffle(role_objs)
+            secrets.SystemRandom().shuffle(role_objs)
         if add_human:
-            assigned_role_idx = random.randint(0, len(role_objs) - 1)
+            assigned_role_idx = secrets.SystemRandom().randint(0, len(role_objs) - 1)
             assigned_role = role_objs[assigned_role_idx]
             role_objs[assigned_role_idx] = prepare_human_player(assigned_role)  # TODO
 

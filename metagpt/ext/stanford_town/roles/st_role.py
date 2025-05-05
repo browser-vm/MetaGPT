@@ -11,7 +11,6 @@ Do the steps following:
 - execute, move or else in the Maze
 """
 import math
-import random
 import time
 from datetime import datetime, timedelta
 from operator import itemgetter
@@ -48,6 +47,7 @@ from metagpt.logs import logger
 from metagpt.roles.role import Role, RoleContext
 from metagpt.schema import Message
 from metagpt.utils.common import any_to_str
+import secrets
 
 if TYPE_CHECKING:
     from metagpt.environment.stanford_town.stanford_town_env import (  # noqa: F401
@@ -466,7 +466,7 @@ class STRole(Role):
 
                 address_tiles = self.rc.env.observe()["address_tiles"]
                 target_tiles = address_tiles[plan]
-                target_tiles = random.sample(list(target_tiles), 1)
+                target_tiles = secrets.SystemRandom().sample(list(target_tiles), 1)
 
             else:
                 # This is our default execution. We simply take the persona to the
@@ -484,9 +484,9 @@ class STRole(Role):
             # may stretch many coordinates). So, we sample a few here. And from that
             # random sample, we will take the closest ones.
             if len(target_tiles) < 4:
-                target_tiles = random.sample(list(target_tiles), len(target_tiles))
+                target_tiles = secrets.SystemRandom().sample(list(target_tiles), len(target_tiles))
             else:
-                target_tiles = random.sample(list(target_tiles), 4)
+                target_tiles = secrets.SystemRandom().sample(list(target_tiles), 4)
             # If possible, we want personas to occupy different tiles when they are
             # headed to the same location on the maze. It is ok if they end up on the
             # same time, but we try to lower that probability.
