@@ -15,7 +15,7 @@ from metagpt.logs import logger
 
 def download_file(url: str, filename: str) -> None:
     """Download a file from the given URL and show progress."""
-    response = requests.get(url, stream=True)
+    response = requests.get(url, stream=True, timeout=60)
     total_size = int(response.headers.get("content-length", 0))
     block_size = 1024
     progress_bar = tqdm(total=total_size, unit="iB", unit_scale=True)

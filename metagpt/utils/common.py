@@ -828,7 +828,7 @@ def decode_image(img_url_or_b64: str) -> Image:
     """decode image from url or base64 into PIL.Image"""
     if img_url_or_b64.startswith("http"):
         # image http(s) url
-        resp = requests.get(img_url_or_b64)
+        resp = requests.get(img_url_or_b64, timeout=60)
         img = Image.open(BytesIO(resp.content))
     else:
         # image b64_json
@@ -873,7 +873,7 @@ def download_model(file_url: str, target_folder: Path) -> Path:
     if not file_path.exists():
         file_path.mkdir(parents=True, exist_ok=True)
         try:
-            response = requests.get(file_url, stream=True)
+            response = requests.get(file_url, stream=True, timeout=60)
             response.raise_for_status()  # 检查请求是否成功
             # 保存文件
             with open(file_path, "wb") as f:
