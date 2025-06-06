@@ -6,16 +6,15 @@
 import os
 import tarfile
 from typing import Dict
-
-import requests
 from tqdm import tqdm
 
 from metagpt.logs import logger
+from security import safe_requests
 
 
 def download_file(url: str, filename: str) -> None:
     """Download a file from the given URL and show progress."""
-    response = requests.get(url, stream=True)
+    response = safe_requests.get(url, stream=True)
     total_size = int(response.headers.get("content-length", 0))
     block_size = 1024
     progress_bar = tqdm(total=total_size, unit="iB", unit_scale=True)
