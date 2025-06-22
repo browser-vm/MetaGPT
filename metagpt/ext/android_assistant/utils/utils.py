@@ -5,7 +5,7 @@
 import re
 from pathlib import Path
 from typing import Union
-from xml.etree.ElementTree import Element, iterparse
+from xml.etree.ElementTree import Element
 
 import cv2
 import pyshine as ps
@@ -29,6 +29,7 @@ from metagpt.ext.android_assistant.utils.schema import (
     TextOpParam,
 )
 from metagpt.logs import logger
+import defusedxml.ElementTree
 
 
 def get_id_from_element(elem: Element) -> str:
@@ -49,7 +50,7 @@ def get_id_from_element(elem: Element) -> str:
 def traverse_xml_tree(xml_path: Path, elem_list: list[AndroidElement], attrib: str, add_index=False):
     path = []
     extra_config = config.extra
-    for event, elem in iterparse(str(xml_path), ["start", "end"]):
+    for event, elem in defusedxml.ElementTree.iterparse(str(xml_path), ["start", "end"]):
         if event == "start":
             path.append(elem)
             if attrib in elem.attrib and elem.attrib[attrib] == "true":
