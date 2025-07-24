@@ -53,7 +53,7 @@ class ParseRecord(Action):
             for step in range(1, record_step_count + 1):
                 img_before_base64 = encode_image(self.screenshot_after_path.joinpath(f"{step}_labeled.png"))
                 img_after_base64 = encode_image(self.screenshot_after_path.joinpath(f"{step + 1}_labeled.png"))
-                rec = record_file.readline().strip()
+                rec = record_file.readline(5_000_000).strip()
                 action, resource_id = rec.split(":::")
                 action_type = action.split("(")[0]
                 # 构建Prompt
