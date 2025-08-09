@@ -4,7 +4,6 @@
 # @Desc    : operator demo of aflow
 import asyncio
 import concurrent.futures
-import random
 import sys
 import traceback
 from collections import Counter
@@ -40,6 +39,7 @@ from metagpt.ext.aflow.scripts.utils import (
 )
 from metagpt.llm import LLM
 from metagpt.logs import logger
+import secrets
 
 
 class Operator:
@@ -330,7 +330,7 @@ class MdEnsemble(Operator):
     @staticmethod
     def shuffle_answers(solutions: List[str]) -> Tuple[List[str], Dict[str, str]]:
         shuffled_solutions = solutions.copy()
-        random.shuffle(shuffled_solutions)
+        secrets.SystemRandom().shuffle(shuffled_solutions)
         answer_mapping = {chr(65 + i): solutions.index(solution) for i, solution in enumerate(shuffled_solutions)}
         return shuffled_solutions, answer_mapping
 

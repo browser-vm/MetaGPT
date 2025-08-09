@@ -1,12 +1,12 @@
 import json
 import os
-import random
 from difflib import SequenceMatcher
 
 from metagpt.ext.sela.insights.solution_designer import SolutionDesigner
 from metagpt.ext.sela.utils import clean_json_from_rsp, load_data_config, mcts_logger
 from metagpt.llm import LLM
 from metagpt.schema import Message
+import secrets
 
 REFLECTION_SYSTEM_MSG = "As a Kaggle Grandmaster competing in a challenge, your task is to suggest potential evolutionary improvements that could enhance the performance of the baseline code."
 
@@ -69,7 +69,7 @@ class InstructionGenerator:
 
     @staticmethod
     def _random_sample(analysis, num_samples):
-        return random.sample(analysis, num_samples)
+        return secrets.SystemRandom().sample(analysis, num_samples)
 
     @staticmethod
     def sample_instruction_set(data):
@@ -81,7 +81,7 @@ class InstructionGenerator:
             data_dict[task_id].append(item)
         instruction_set = []
         for task_id in sorted(data_dict.keys()):
-            instruction_set.append(random.choice(data_dict[task_id]))
+            instruction_set.append(secrets.choice(data_dict[task_id]))
         return instruction_set
 
     @staticmethod

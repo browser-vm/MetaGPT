@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 # @Desc   : gen_action_details
 
-import random
 
 from metagpt.environment.stanford_town.env_space import EnvObsParams, EnvObsType
 from metagpt.ext.stanford_town.actions.st_action import STAction
 from metagpt.logs import logger
+import secrets
 
 
 class GenActionSector(STAction):
@@ -191,7 +191,7 @@ class GenActionObject(STAction):
         output = await self._run_gpt35_max_tokens(prompt, max_tokens=15)
         x = [i.strip() for i in role.s_mem.get_str_accessible_arena_game_objects(temp_address).split(",")]
         if output not in x:
-            output = random.choice(x)
+            output = secrets.choice(x)
         logger.info(f"Role: {role.name} Action: {self.cls_name} output: {output}")
         return output
 
