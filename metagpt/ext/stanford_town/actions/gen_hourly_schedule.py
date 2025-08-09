@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 # @Desc   : gen_hourly_schedule
 
-import random
 import string
 
 from metagpt.logs import logger
 
 from .st_action import STAction
+import secrets
 
 
 def get_random_alphanumeric(i=6, j=6):
@@ -21,8 +21,8 @@ def get_random_alphanumeric(i=6, j=6):
     OUTPUT:
         an alpha numeric str with the length of somewhere between i and j.
     """
-    k = random.randint(i, j)
-    x = "".join(random.choices(string.ascii_letters + string.digits, k=k))
+    k = secrets.SystemRandom().randint(i, j)
+    x = "".join(secrets.SystemRandom().choices(string.ascii_letters + string.digits, k=k))
     return x
 
 

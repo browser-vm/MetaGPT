@@ -4,7 +4,6 @@
 
 import datetime
 import math
-import random
 from typing import Tuple, Union
 
 from metagpt.ext.stanford_town.actions.decide_to_talk import DecideToTalk
@@ -20,6 +19,7 @@ from metagpt.ext.stanford_town.plan.converse import agent_conversation
 from metagpt.ext.stanford_town.utils.utils import get_embedding
 from metagpt.llm import LLM
 from metagpt.logs import logger
+import secrets
 
 
 async def plan(role: "STRole", roles: dict["STRole"], new_day: bool, retrieved: dict) -> str:
@@ -113,14 +113,14 @@ def _choose_retrieved(role_name: str, retrieved: dict) -> Union[None, dict]:
         if ":" not in curr_event.subject and curr_event.subject != role_name:
             priority += [rel_ctx]
     if priority:
-        return random.choice(priority)
+        return secrets.choice(priority)
 
     # Skip idle.
     for event_desc, rel_ctx in retrieved.items():
         if "is idle" not in event_desc:
             priority += [rel_ctx]
     if priority:
-        return random.choice(priority)
+        return secrets.choice(priority)
     return None
 
 

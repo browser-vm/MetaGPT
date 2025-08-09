@@ -1,13 +1,13 @@
 import datetime
 import json
 import os
-import random
 
 import numpy as np
 import pandas as pd
 
 from metagpt.logs import logger
 from metagpt.utils.common import read_json_file, write_json_file
+import secrets
 
 
 class DataUtils:
@@ -109,7 +109,7 @@ class DataUtils:
             return ""
 
         sample_size = min(3, len(data))
-        random_samples = random.sample(data, sample_size)
+        random_samples = secrets.SystemRandom().sample(data, sample_size)
 
         log = ""
         for sample in random_samples:
